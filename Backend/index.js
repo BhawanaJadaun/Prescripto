@@ -1,5 +1,6 @@
 import express from "express";
 import "dotenv/config";
+import cors from "cors";
 import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
 import adminRouter from "./routes/adminRoute.js";
@@ -15,6 +16,7 @@ connectCloudinary();
 
 // Middlewares
 app.use(express.json());
+app.use(cors());
 // Routes
 app.use("/api/admin", adminRouter);
 app.use("/api/doctor", doctorRouter);

@@ -8,11 +8,17 @@
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/index.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.js"
     }
   ],
   "env": {
-    "NODE_ENV": "production"
-  }
+    "NODE_ENV": "production",
+    "JWT_SECRET": "Khushi250",
+    "MONGO_URL": "mongodb+srv://bhawana:bhawana7535@cluster0.y1tkk42.mongodb.net/zerodha?retryWrites=true&w=majority&appName=Cluster0"
+  }
 }

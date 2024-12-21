@@ -16,21 +16,28 @@ connectCloudinary();
 
 // Middlewares
 app.use(express.json());
-app.use(cors({
-  
-    origin:["https://prescriptofrontend.vercel.app"],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    credentials:true,
- 
-}));
-app.use(cors({
-  
-    origin:["https://admin-iota-coral.vercel.app"],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    credentials:true,
- 
-}));
-app.use(express.json());
+
+// Custom CORS middleware for multiple origins
+const allowedOrigins = [
+  "https://prescriptofrontend.vercel.app",
+  "https://admin-iota-coral.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g., mobile apps or Postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
+);
 
 // Routes
 app.use("/api/admin", adminRouter);
@@ -46,3 +53,4 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
